@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Form Validation</title>
+    <style>
+        body {
+            background-color: dodgerblue;
+            border-color: black;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            margin: 50px;
+        }
+        .input-container {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+        .error {
+            color: darkred;
+            font-size: 15px;
+        }
+        #successMessage {
+            color: forestgreen;
+            font-size: 20px;
+            display: none; /* Hidden initially */
+        }
+    </style>
+</head>
+<body>
+    <h2>Real-Time Form Validation</h2>
+    <form id="mytwistedForm">
+        <div class="input-container">
+            <label>Name:</label>
+            <input type="text" id="name" onkeyup="validateName()">
+            <p class="error" id="nameError"></p>
+        </div>
+
+        <div class="input-container">
+            <label>Email:</label>
+            <input type="email" id="email" onkeyup="validateEmail()">
+            <p class="error" id="emailError"></p>
+        </div>
+
+        <div class="input-container">
+            <label>Password:</label>
+            <input type="password" id="password" onkeyup="validatePassword()">
+            <p class="error" id="passwordError"></p>
+        </div>
+
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <p id="successMessage"></p> <!-- Success message -->
+
+    <script>
+        function validateName() {
+            let name = document.getElementById("name").value;
+            let errorMsg = document.getElementById("nameError");
+
+            if (name.trim() === "") {
+                errorMsg.textContent = "Name cannot be empty!";
+                return false;
+            } else {
+                errorMsg.textContent = "";
+                return true;
+            }
+        }
+
+        function validateEmail() {
+            let email = document.getElementById("email").value;
+            let errorMsg = document.getElementById("emailError");
+            let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            if (!email.match(emailPattern)) {
+                errorMsg.textContent = "Invalid email format!";
+                return false;
+            } else {
+                errorMsg.textContent = "";
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            let password = document.getElementById("password").value;
+            let errorMsg = document.getElementById("passwordError");
+
+            if (password.length < 6) {
+                errorMsg.textContent = "Password must be at least 6 characters!";
+                return false;
+            } else {
+                errorMsg.textContent = "";
+                return true;
+            }
+        }
+
+        function submitForm() {
+            let name = document.getElementById("name").value;
+            
+            // Check if all validations pass
+            if (validateName() && validateEmail() && validatePassword()) {
+                document.getElementById("successMessage").textContent = "You've Successfully Logged in, " + name + "!";
+                document.getElementById("successMessage").style.display = "block"; // Show success message
+            }
+        }
+    </script>
+</body>
+</html>
